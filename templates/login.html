@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In | Spendly{% endblock %}
+
+{% block content %}
+<section class="auth-wrap">
+    <div class="auth-card">
+        <h1>Welcome back</h1>
+        <p>Sign in to continue tracking your money flow.</p>
+        <form method="post" class="form-grid">
+            <label>Email
+                <input type="email" name="email" required placeholder="you@example.com">
+            </label>
+            <label>Password
+                <input type="password" name="password" required placeholder="Your password">
+            </label>
+            <button type="submit" class="btn btn-primary">Sign In</button>
+        </form>
+        <p class="form-footnote">
+            No account yet?
+            <a href="{{ url_for('register') }}">Create one now.</a>
+        </p>
+    </div>
+</section>
+{% endblock %}

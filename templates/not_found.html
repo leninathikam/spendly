@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Page Not Found | Spendly{% endblock %}
+
+{% block content %}
+<section class="form-page">
+    <div class="panel narrow center">
+        <h1>404</h1>
+        <p>The page you requested does not exist.</p>
+        <a href="{{ url_for('dashboard' if current_user else 'landing') }}" class="btn btn-primary">Go Home</a>
+    </div>
+</section>
+{% endblock %}

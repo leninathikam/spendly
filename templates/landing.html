@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Spendly | Advanced Expense Intelligence{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-copy">
+        <p class="eyebrow">Personal Finance Operating System</p>
+        <h1>Control your spending with live insights, budgets, and exports.</h1>
+        <p>
+            Spendly is more than a tracker. Build monthly budgets by category, filter transactions fast,
+            and monitor your financial trendline in a single dashboard.
+        </p>
+        <div class="hero-actions">
+            <a href="{{ url_for('register') }}" class="btn btn-primary">Start Free</a>
+            <a href="{{ url_for('login') }}" class="btn btn-ghost">Sign In</a>
+        </div>
+    </div>
+    <div class="hero-card">
+        <h3>This Month</h3>
+        <ul class="metric-list">
+            <li><span>Transactions</span><strong>43</strong></li>
+            <li><span>Budget Used</span><strong>72%</strong></li>
+            <li><span>Top Category</span><strong>Food</strong></li>
+        </ul>
+        <div class="trend-strip">
+            <div style="height: 32%"></div>
+            <div style="height: 50%"></div>
+            <div style="height: 64%"></div>
+            <div style="height: 48%"></div>
+            <div style="height: 78%"></div>
+            <div style="height: 85%"></div>
+        </div>
+    </div>
+</section>
+
+<section class="feature-grid">
+    <article class="feature-card">
+        <h3>Smart Filtering</h3>
+        <p>Slice by dates, categories, amount range, and notes in seconds.</p>
+    </article>
+    <article class="feature-card">
+        <h3>Budget by Category</h3>
+        <p>Set monthly limits and get instant visibility on over-spend risk.</p>
+    </article>
+    <article class="feature-card">
+        <h3>One-click CSV Export</h3>
+        <p>Download filtered transactions and use them in Sheets or BI tools.</p>
+    </article>
+</section>
+{% endblock %}

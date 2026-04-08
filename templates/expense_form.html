@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if mode == "edit" %}Edit Expense{% else %}Add Expense{% endif %} | Spendly
+{% endblock %}
+
+{% block content %}
+<section class="form-page">
+    <div class="panel narrow">
+        <h1>{% if mode == "edit" %}Edit Expense{% else %}Add New Expense{% endif %}</h1>
+        <p>Track every transaction with clean category and payment data.</p>
+        <form method="post" class="form-grid">
+            <label>Amount (USD)
+                <input type="number" name="amount" step="0.01" min="0.01" required value="{{ expense.amount }}">
+            </label>
+            <label>Category
+                <select name="category_id" required>
+                    <option value="">Choose category</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}" {% if expense.category_id == (category.id|string) %}selected{% endif %}>{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>Date
+                <input type="date" name="spent_on" required value="{{ expense.spent_on }}">
+            </label>
+            <label>Payment Method
+                <select name="payment_method" required>
+                    {% for method in payment_methods %}
+                        <option value="{{ method }}" {% if expense.payment_method == method %}selected{% endif %}>{{ method }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>Note
+                <textarea name="note" maxlength="180" rows="4" placeholder="Optional details">{{ expense.note }}</textarea>
+            </label>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">{% if mode == "edit" %}Update Expense{% else %}Save Expense{% endif %}</button>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-ghost">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

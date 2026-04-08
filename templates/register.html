@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Create Account | Spendly{% endblock %}
+
+{% block content %}
+<section class="auth-wrap">
+    <div class="auth-card">
+        <h1>Create your account</h1>
+        <p>Set up Spendly and unlock your dashboard in under one minute.</p>
+        <form method="post" class="form-grid">
+            <label>Full Name
+                <input type="text" name="name" required placeholder="Alex Johnson">
+            </label>
+            <label>Email
+                <input type="email" name="email" required placeholder="you@example.com">
+            </label>
+            <label>Password
+                <input type="password" name="password" required minlength="8" placeholder="At least 8 characters">
+            </label>
+            <button type="submit" class="btn btn-primary">Create Account</button>
+        </form>
+        <p class="form-footnote">
+            Already registered?
+            <a href="{{ url_for('login') }}">Sign in.</a>
+        </p>
+    </div>
+</section>
+{% endblock %}

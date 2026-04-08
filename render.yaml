@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: spendly-expense-tracker
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --workers 2 --threads 4 --timeout 120
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SPENDLY_SECRET_KEY
+        generateValue: true
+      - key: SPENDLY_DB_PATH
+        value: /var/data/expense_tracker.db
+    disk:
+      name: spendly-data
+      mountPath: /var/data
+      sizeGB: 1

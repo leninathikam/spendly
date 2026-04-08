@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Budgets | Spendly{% endblock %}
+
+{% block content %}
+<section class="dashboard-head">
+    <div>
+        <h1>Budget Planner</h1>
+        <p>Set category budgets for {{ selected_month_label }} and keep overspending in check.</p>
+    </div>
+    <a href="{{ url_for('dashboard', month=selected_month) }}" class="btn btn-ghost">Back to Dashboard</a>
+</section>
+
+<section class="analytics-grid two-col">
+    <article class="panel">
+        <h2>Set or Update Budget</h2>
+        <form method="post" class="form-grid">
+            <label>Month
+                <input type="month" name="month" value="{{ selected_month }}" required>
+            </label>
+            <label>Category
+                <select name="category_id" required>
+                    <option value="">Choose category</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>Budget Amount
+                <input type="number" name="amount" step="0.01" min="0.01" placeholder="500.00" required>
+            </label>
+            <button type="submit" class="btn btn-primary">Save Budget</button>
+        </form>
+    </article>
+
+    <article class="panel">
+        <h2>Current Month Budgets</h2>
+        {% if budget_rows %}
+            <ul class="breakdown-list compact">
+                {% for row in budget_rows %}
+                    {% set spent = row.spent_amount or 0 %}
+                    {% set budget = row.budget_amount or 0 %}
+                    {% set progress = (spent / budget * 100) if budget else 0 %}
+                    <li>
+                        <div class="breakdown-row">
+                            <span>{{ row.category_name }}</span>
+                            <strong>${{ "%.2f"|format(spent) }} / ${{ "%.2f"|format(budget) }}</strong>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill {% if progress > 100 %}over-limit{% endif %}" style="width: {{ "%.2f"|format(100 if progress > 100 else progress) }}%"></div>
+                        </div>
+                        <form method="post" action="{{ url_for('delete_budget', budget_id=row.id) }}">
+                            <input type="hidden" name="month" value="{{ selected_month }}">
+                            <button class="btn btn-tiny btn-danger" type="submit" data-confirm-delete="true">Delete</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-copy">No budgets available for this month. Add one from the left panel.</p>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}

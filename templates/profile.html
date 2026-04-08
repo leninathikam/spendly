@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Profile | Spendly{% endblock %}
+
+{% block content %}
+<section class="dashboard-head">
+    <div>
+        <h1>{{ current_user.name }}</h1>
+        <p>{{ current_user.email }}</p>
+    </div>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-ghost">Open Dashboard</a>
+</section>
+
+<section class="kpi-grid">
+    <article class="kpi-card">
+        <h3>Lifetime Spend</h3>
+        <p class="kpi-value">${{ "%.2f"|format(summary.total_spend or 0) }}</p>
+    </article>
+    <article class="kpi-card">
+        <h3>Transactions</h3>
+        <p class="kpi-value">{{ summary.transaction_count or 0 }}</p>
+    </article>
+    <article class="kpi-card">
+        <h3>Average Transaction</h3>
+        <p class="kpi-value">${{ "%.2f"|format(summary.avg_transaction or 0) }}</p>
+    </article>
+    <article class="kpi-card">
+        <h3>Average Monthly Spend</h3>
+        <p class="kpi-value">${{ "%.2f"|format(avg_monthly or 0) }}</p>
+    </article>
+</section>
+
+<section class="analytics-grid two-col">
+    <article class="panel">
+        <h2>Top Categories</h2>
+        {% if top_categories %}
+            <ul class="breakdown-list">
+                {% set max_total = top_categories[0].total if top_categories else 0 %}
+                {% for row in top_categories %}
+                    {% set percent = (row.total / max_total * 100) if max_total else 0 %}
+                    <li>
+                        <div class="breakdown-row">
+                            <span>{{ row.category_name }}</span>
+                            <strong>${{ "%.2f"|format(row.total) }}</strong>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" style="width: {{ "%.2f"|format(percent) }}%"></div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-copy">No spending data yet.</p>
+        {% endif %}
+    </article>
+
+    <article class="panel">
+        <h2>Recent Transactions</h2>
+        {% if recent_expenses %}
+            <ul class="history-list">
+                {% for expense in recent_expenses %}
+                    <li>
+                        <div>
+                            <strong>{{ expense.category_name }}</strong>
+                            <p>{{ expense.note or "No note" }}</p>
+                        </div>
+                        <div class="history-right">
+                            <strong>${{ "%.2f"|format(expense.amount) }}</strong>
+                            <span>{{ expense.spent_on }}</span>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-copy">Add your first expense to get insights here.</p>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}
