@@ -11,8 +11,4 @@ services:
       - key: SPENDLY_SECRET_KEY
         generateValue: true
       - key: SPENDLY_DB_PATH
-        value: /var/data/expense_tracker.db
-    disk:
-      name: spendly-data
-      mountPath: /var/data
-      sizeGB: 1
+        value: /tmp/expense_tracker.db
